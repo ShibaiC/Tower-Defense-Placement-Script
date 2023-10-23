@@ -1,0 +1,25 @@
+local minDistance = 10 -- Minimum distance between towers
+
+function isTooClose(newTowerPosition)
+    for _, tower in ipairs(placedTowers) do
+        if (tower.Position - newTowerPosition).Magnitude < minDistance then
+            return true
+        end
+    end
+    return false
+end
+
+-- Then in your tower placement code:
+if towerToSpawn then
+    local result = MouseRaycast({towerToSpawn})
+    if result and result.Instance then
+        if result.Instance.Parent.Name == "TowerArea" and not isTooClose(result.Position) then
+            canPlace = true
+            ColorPlaceholderTower(Color3.new(0.0203403, 1, 0))
+        else
+            canPlace = false
+            ColorPlaceholderTower(Color3.new(0.962005, 0.0113375, 0))
+        end
+        -- Rest of your code...
+    end
+end
